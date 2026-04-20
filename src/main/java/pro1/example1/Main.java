@@ -16,13 +16,22 @@ public class Main {
     static int counter = 0;
     public static void main(String[] args) throws InterruptedException {
         List<Thread> myThreads = new ArrayList<>();
+        var lock = new Object();
         for(int i=0; i<1000; i++)
         {
             // start thread
+            var t = new Thread(()->{
                 for (int j=0; j<2000; j++) {
-                    counter++;
+                    synchronized (lock) {counter++;}
                 }
+            });
             // end thread
+            t.start();
+            myThreads.add(t);
+        }
+        // Zaručí, že vlákna doběhnou
+        for (Thread t : myThreads){
+            t.join();
         }
         System.out.println(counter);
     }

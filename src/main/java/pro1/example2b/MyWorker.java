@@ -1,5 +1,9 @@
 package pro1.example2b;
 
+import com.google.gson.Gson;
+import pro1.example2a.api.Api;
+import pro1.example2a.api.apiDataModel.ActionsList;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +24,23 @@ class MyWorker extends SwingWorker<String, String> {
     @Override
     public String doInBackground() {
 
-        // TODO
+        for (int y = 1995; y <= 2030; y++) {
+            String json = Api.getActionsByRoom(room, term, y);
+            ActionsList actions = new Gson().fromJson(json, ActionsList.class);
+            int localY = y;
+
+            // START UPDATING UI
+            JLabel label = new JLabel("");
+            label.setText(localY + ": " + actions.items.size() + " akcí");
+            label.setBorder(new CompoundBorder(
+                    BorderFactory.createLineBorder(Color.black),
+                    new EmptyBorder(10, 10, 10, 10)
+            ));
+            centerPanel.add(label);
+            centerPanel.validate();
+            centerPanel.repaint();
+            // END UPDATING UI
+        }
 
         return "";
     }

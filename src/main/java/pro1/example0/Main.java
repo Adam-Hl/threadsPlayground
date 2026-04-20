@@ -9,8 +9,9 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         for(int i=0; i<100; i++)
         {
+            var i2 = i;
             var t = new Thread(()->{
-                //System.out.println("Hodnota i je: " + i);
+                System.out.println("Hodnota i je: " + i2);
             });
             t.start();
         }
